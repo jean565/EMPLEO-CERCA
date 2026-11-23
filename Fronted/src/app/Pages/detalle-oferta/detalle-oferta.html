@@ -1,0 +1,22 @@
+<section class="pagina-detalle"><div class="contenedor-detalle">
+  <a routerLink="/ofertas" class="volver">← Volver a ofertas</a>
+  @if (cargando()) {
+    <div class="no-encontrada"><h2>Cargando oferta...</h2></div>
+  } @else if (oferta(); as oferta) {
+    <div class="contenido-detalle">
+      <article class="informacion-principal">
+        <div class="encabezado-oferta"><div class="icono-empresa">💼</div><div><h1>{{ oferta.titulo }}</h1><p>{{ oferta.empresa }}</p></div></div>
+        <div class="datos-oferta"><span>📍 {{ oferta.ubicacion }}</span><span>🕒 {{ oferta.modalidad }}</span><span>🏷️ {{ oferta.categoria }}</span></div>
+        <hr><h2>Descripción del puesto</h2><p>{{ oferta.descripcion }}</p>
+        <h2>Requisitos</h2><p>{{ oferta.requisitos }}</p>
+      </article>
+      <aside class="informacion-lateral"><h3>Información del empleo</h3><p class="etiqueta">Remuneración referencial</p><h2>{{ oferta.sueldo }}</h2><p class="etiqueta">Ubicación</p><p>{{ oferta.ubicacion }}</p><p class="etiqueta">Jornada</p><p>{{ oferta.modalidad }}</p>@if (!esAdmin) {
+          <a class="boton-postular" [routerLink]="['/postular', oferta.id]">Postular ahora</a>
+        } @else {
+          <p class="aviso-admin">En modo administrador solo puedes gestionar las ofertas.</p>
+        }</aside>
+    </div>
+  } @else {
+    <div class="no-encontrada"><h2>{{ error() || 'Oferta no encontrada' }}</h2><p>El empleo solicitado no está disponible.</p><a routerLink="/ofertas">Ver otras ofertas</a></div>
+  }
+</div></section>

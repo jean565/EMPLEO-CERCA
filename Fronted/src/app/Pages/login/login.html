@@ -1,0 +1,20 @@
+<section class="pagina-formulario">
+  <div class="formulario-contenedor">
+    <h1>Iniciar sesión</h1>
+    <p>Ingresa tus datos para acceder a Empleo Cerca.</p>
+    @if (returnUrl) {
+      <p class="nota-demo">Inicia sesión para continuar con tu postulación.</p>
+    }
+    <form (ngSubmit)="entrar()" #formulario="ngForm">
+      <label for="contacto">Correo o celular</label>
+      <input id="contacto" name="contacto" type="text" [(ngModel)]="contacto" required
+        autocomplete="username" placeholder="Ej. nombre@correo.com o 987654321">
+      <label for="clave">Contraseña</label>
+      <input id="clave" name="clave" type="password" [(ngModel)]="clave" required autocomplete="current-password">
+      <button type="submit" [disabled]="formulario.invalid || ingresando">
+        {{ ingresando ? 'Ingresando...' : 'Iniciar sesión' }}
+      </button>
+    </form>
+    <p>¿Aún no tienes cuenta? <a routerLink="/registro">Ir a registro</a></p>
+  </div>
+</section>
