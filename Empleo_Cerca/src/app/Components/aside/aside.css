@@ -1,0 +1,47 @@
+
+.seccion-aside {
+    background-color: #EFF6FF;
+    padding: 45px 20px;
+}
+
+.contenido-aside {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+
+.texto-aside h2 {
+    color: #1E3A8A;
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.texto-aside p {
+    color: #475569;
+    margin: 0;
+}
+
+.boton-aside {
+    background-color: #2563EB;
+    color: white;
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    white-space: nowrap;
+    transition: 0.3s;
+}
+
+.boton-aside:hover {
+    background-color: #1D4ED8;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .contenido-aside {
+        flex-direction: column;
+        text-align: center;
+    }
+}

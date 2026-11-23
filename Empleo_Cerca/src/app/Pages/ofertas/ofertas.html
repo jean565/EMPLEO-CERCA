@@ -1,0 +1,113 @@
+<section class="pagina-ofertas">
+  <div class="contenedor">
+    <div class="encabezado">
+      <h1>Encuentra tu próximo empleo</h1>
+      <p>Explora las oportunidades laborales disponibles en nuestra plataforma.</p>
+    </div>
+
+    @if (esAdmin) {
+      <div class="barra-admin">
+        <div>
+          <strong>Administración de ofertas</strong>
+          <p>Gestiona las ofertas laborales publicadas.</p>
+        </div>
+        <div class="acciones-admin">
+          <button type="button" class="boton-azul" (click)="nuevaOferta()">+ Agregar oferta</button>
+          <button type="button" class="boton-secundario" (click)="verPostulaciones = !verPostulaciones">
+            {{ verPostulaciones ? 'Ocultar postulaciones' : 'Ver postulaciones' }}
+          </button>
+          <button type="button" class="boton-salir" (click)="salir()">Cerrar sesión</button>
+        </div>
+      </div>
+
+      @if (formularioAbierto) {
+        <section class="panel-formulario" aria-label="Formulario de oferta">
+          <div class="panel-titulo">
+            <h2>{{ editando ? 'Editar oferta' : 'Agregar una oferta' }}</h2>
+            <button type="button" class="boton-secundario" (click)="cancelar()">Cancelar</button>
+          </div>
+          <form (ngSubmit)="guardarOferta()" #ofertaForm="ngForm" ngNativeValidate>
+            <div class="campos-grid">
+              <div><label for="titulo">Puesto</label><input id="titulo" name="titulo" [(ngModel)]="formulario.titulo" required minlength="3" maxlength="100"></div>
+              <div><label for="empresa">Empresa</label><input id="empresa" name="empresa" [(ngModel)]="formulario.empresa" required maxlength="100"></div>
+              <div><label for="ubicacion">Ubicación</label><input id="ubicacion" name="ubicacion" [(ngModel)]="formulario.ubicacion" required maxlength="100"></div>
+              <div><label for="modalidad">Jornada</label><select id="modalidad" name="modalidad" [(ngModel)]="formulario.modalidad"><option>Tiempo completo</option><option>Medio tiempo</option><option>Prácticas</option></select></div>
+              <div><label for="sueldo">Sueldo referencial</label><input id="sueldo" name="sueldo" [(ngModel)]="formulario.sueldo" required placeholder="S/ 1,200 - 1,600" maxlength="80"></div>
+              <div><label for="categoria">Categoría</label><input id="categoria" name="categoria" [(ngModel)]="formulario.categoria" required maxlength="80"></div>
+              <div class="campo-ancho"><label for="descripcion">Descripción</label><textarea id="descripcion" name="descripcion" [(ngModel)]="formulario.descripcion" required rows="3" maxlength="1500"></textarea></div>
+              <div class="campo-ancho"><label for="requisitos">Requisitos</label><textarea id="requisitos" name="requisitos" [(ngModel)]="formulario.requisitos" required rows="3" maxlength="1500"></textarea></div>
+            </div>
+            <button type="submit" class="boton-azul">
+              {{ editando ? 'Guardar cambios' : 'Publicar oferta' }}
+            </button>
+          </form>
+        </section>
+      }
+
+      @if (verPostulaciones) {
+        <section class="panel-postulaciones">
+          <h2>Postulaciones ({{ postulaciones.mostrar().length }})</h2>
+          @for (postulacion of postulaciones.mostrar(); track postulacion.id) {
+            <div class="fila-postulacion">
+              <strong>{{ postulacion.nombre }}</strong>
+              <span>{{ postulacion.correo }} · Oferta #{{ postulacion.ofertaId }}</span>
+            </div>
+          } @empty {
+            <p>No hay postulaciones registradas.</p>
+          }
+        </section>
+      }
+    }
+
+    <div class="buscador">
+      <input type="search" placeholder="Buscar por puesto o empresa" aria-label="Buscar ofertas"
+        [(ngModel)]="textoBuscar" (input)="buscarOfertas()">
+      <select aria-label="Filtrar por categoría" [(ngModel)]="categoriaBuscar" (change)="buscarOfertas()">
+        <option value="">Todas las categorías</option>
+        @for (categoria of categorias; track categoria) {
+          <option [value]="categoria">{{ categoria }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="titulo-listado">
+      <h2>Ofertas laborales</h2>
+      <span>{{ listaOfertas.length }} ofertas encontradas</span>
+    </div>
+
+    <div class="lista-ofertas">
+      @for (oferta of listaOfertas.slice(0, cantidadMostrar); track oferta.id) {
+        <article class="tarjeta-oferta">
+          <div class="icono-oferta">💼</div>
+          <h3>{{ oferta.titulo }}</h3>
+          <p class="empresa">{{ oferta.empresa }}</p>
+          <p>📍 {{ oferta.ubicacion }}</p>
+          <p>🕒 {{ oferta.modalidad }}</p>
+          <p>💰 {{ oferta.sueldo }}</p>
+          <span class="categoria">{{ oferta.categoria }}</span>
+          @if (!esAdmin) {
+            <a [routerLink]="['/detalle-oferta', oferta.id]" class="boton-detalle">Ver detalles</a>
+          }
+          @if (esAdmin) {
+            <div class="acciones-tarjeta">
+              <button type="button" class="editar" (click)="editarOferta(oferta)">Editar</button>
+              <button type="button" class="eliminar" (click)="eliminarOferta(oferta.id)">Eliminar</button>
+            </div>
+          }
+        </article>
+      } @empty {
+        <p class="sin-resultados">No se encontraron ofertas laborales.</p>
+      }
+    </div>
+
+    @if (listaOfertas.length > 6) {
+      <div class="controles-ofertas">
+        @if (cantidadMostrar < listaOfertas.length) {
+          <button type="button" (click)="mostrarMas()">Mostrar más ofertas</button>
+        } @else {
+          <button type="button" (click)="mostrarMenos()">Mostrar menos</button>
+        }
+      </div>
+    }
+  </div>
+</section>
