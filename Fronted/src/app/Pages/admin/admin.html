@@ -1,0 +1,24 @@
+<section class="pagina-admin"><div class="admin-contenedor"><div class="admin-cabecera"><div><h1>Administrar ofertas</h1><p>Gestiona las publicaciones laborales.</p></div><button type="button" (click)="salir()">Cerrar sesión</button></div>
+@if (!accesoDemo) {<div class="aviso-acceso">Inicia sesión como administrador para continuar. <a routerLink="/login">Ir a Login</a></div>}
+@else {
+  <div class="admin-grid"><div class="admin-form"><h2>{{ editando ? 'Editar oferta' : 'Agregar oferta' }}</h2>
+  <form (ngSubmit)="guardar()" #formularioOferta="ngForm">
+    <label for="titulo">Puesto</label><input id="titulo" name="titulo" [(ngModel)]="formulario.titulo" required minlength="3" maxlength="100">
+    <label for="empresa">Empresa</label><input id="empresa" name="empresa" [(ngModel)]="formulario.empresa" required maxlength="100">
+    <label for="ubicacion">Ubicación</label><input id="ubicacion" name="ubicacion" [(ngModel)]="formulario.ubicacion" required maxlength="100">
+    <label for="modalidad">Jornada</label><select id="modalidad" name="modalidad" [(ngModel)]="formulario.modalidad"><option>Tiempo completo</option><option>Medio tiempo</option><option>Prácticas</option></select>
+    <label for="sueldo">Sueldo referencial</label><input id="sueldo" name="sueldo" [(ngModel)]="formulario.sueldo" required maxlength="60" placeholder="S/ 1,200 - 1,600">
+    <label for="categoria">Categoría</label><input id="categoria" name="categoria" [(ngModel)]="formulario.categoria" required maxlength="60">
+    <label for="descripcion">Descripción</label><textarea id="descripcion" name="descripcion" [(ngModel)]="formulario.descripcion" required rows="3" maxlength="2000"></textarea>
+    <label for="requisitos">Requisitos</label><textarea id="requisitos" name="requisitos" [(ngModel)]="formulario.requisitos" required rows="3" maxlength="2000"></textarea>
+    <button type="submit" [disabled]="formularioOferta.invalid || guardando()">{{ guardando() ? 'Guardando...' : (editando ? 'Guardar cambios' : 'Agregar oferta') }}</button>
+    @if (editando) {<button type="button" class="secundario" (click)="cancelar()">Cancelar edición</button>}
+  </form></div>
+  <div class="admin-lista"><h2>Ofertas registradas ({{ lista().length }})</h2>
+    @for (oferta of lista(); track oferta.id) {<article class="admin-item"><div><strong>{{ oferta.titulo }}</strong><p>{{ oferta.empresa }} · {{ oferta.ubicacion }}</p></div><div class="acciones"><button type="button" (click)="seleccionar(oferta)">Editar</button><button type="button" class="peligro" (click)="eliminar(oferta.id)">Eliminar</button></div></article>}
+    @empty {<p>No hay ofertas registradas.</p>}
+    <h2>Postulaciones ({{ postulaciones().length }})</h2>
+    @for (postulacion of postulaciones(); track postulacion.id) {<article class="admin-item"><div><strong>{{ postulacion.nombre }}</strong><p>{{ postulacion.correo }} · Oferta #{{ postulacion.ofertaId }}</p></div></article>}
+  </div></div>
+}
+</div></section>

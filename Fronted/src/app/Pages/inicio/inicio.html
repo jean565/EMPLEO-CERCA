@@ -1,0 +1,62 @@
+<section class="seccion-hero">
+  <div class="contenedor-hero">
+    <h1>Tu próximo trabajo está más cerca</h1>
+    <p>Encuentra oportunidades laborales en Concepción de forma rápida y sencilla.</p>
+    <form class="buscador" (ngSubmit)="buscar()">
+      <div class="campo-busqueda">
+        <label for="puesto">Puesto o palabra clave</label>
+        <input type="text" id="puesto" name="puesto" [(ngModel)]="textoBuscar" placeholder="Ej. Asistente administrativo">
+      </div>
+      <div class="campo-busqueda">
+        <label for="ubicacion">Ubicación</label>
+        <select id="ubicacion" class="form-select" disabled><option>Concepción</option></select>
+      </div>
+      <div class="campo-busqueda">
+        <label for="categoria">Categoría</label>
+        <select id="categoria" class="form-select" name="categoria" [(ngModel)]="categoriaBuscar">
+          <option value="">Todas las categorías</option>
+          @for (categoria of categorias; track categoria) {<option [value]="categoria">{{ categoria }}</option>}
+        </select>
+      </div>
+      <div class="campo-boton"><button type="submit" class="btn btn-buscar">Buscar ofertas</button></div>
+    </form>
+  </div>
+</section>
+
+<section class="seccion-ofertas" id="ofertas">
+  <div class="container">
+    <div class="encabezado-ofertas">
+      <h2>Ofertas de trabajo recientes</h2>
+      <a routerLink="/ofertas">Ver todas →</a>
+    </div>
+    <div class="row g-4">
+      @if (cargando()) {
+        <p>Cargando ofertas...</p>
+      } @else if (error()) {
+        <p>{{ error() }}</p>
+      } @else {
+        @for (oferta of recientes; track oferta.id; let i = $index) {
+          <div class="col-12 col-md-6 col-lg-4">
+            <article class="tarjeta-oferta">
+              <div class="cabecera-tarjeta">
+                <div class="icono-oferta" [class.icono-verde]="i === 1" [class.icono-morado]="i === 2" [class.icono-azul]="i === 0">💼</div>
+                <div><h3>{{ oferta.titulo }}</h3><p>{{ oferta.empresa }}</p></div>
+              </div>
+              <div class="detalles-oferta">
+                <p>📍 {{ oferta.ubicacion }}</p>
+                <p>🕒 {{ oferta.modalidad }}</p>
+                <p>💰 {{ oferta.sueldo }}</p>
+              </div>
+              <span class="categoria categoria-azul">{{ oferta.categoria }}</span>
+              @if (!esAdmin) {
+                <a class="enlace-detalle-inicio" [routerLink]="['/detalle-oferta', oferta.id]">Ver detalles →</a>
+              }
+            </article>
+          </div>
+        } @empty {
+          <p>Por ahora no hay ofertas disponibles.</p>
+        }
+      }
+    </div>
+  </div>
+</section>

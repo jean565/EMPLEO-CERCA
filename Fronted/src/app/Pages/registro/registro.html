@@ -1,0 +1,49 @@
+<section class="pagina-registro">
+  <div class="registro-contenedor">
+    <div class="registro-cabecera">
+      <div class="icono-registro">💼</div>
+      <h1>Crea tu cuenta en Empleo Cerca</h1>
+      <p>Completa tus datos para formar parte de Empleo Cerca.</p>
+    </div>
+
+    @if (registrado) {
+      <a class="enlace-principal" routerLink="/login">Ir a iniciar sesión</a>
+    } @else {
+      <form (ngSubmit)="guardar()" #formulario="ngForm">
+        <label for="contacto">Número de celular o correo electrónico</label>
+        <input id="contacto" name="contacto" type="text" [(ngModel)]="contacto"
+          required #contactoCampo="ngModel" autocomplete="username" placeholder="Ej. 987654321 o nombre@correo.com">
+        @if (contactoCampo.touched && !contactoValido()) {
+          <small>Escribe un correo válido o un celular peruano de 9 dígitos que empiece con 9.</small>
+        }
+
+        <label for="contrasena">Contraseña</label>
+        <input id="contrasena" name="contrasena" type="password" [(ngModel)]="contrasena"
+          required minlength="8" #claveCampo="ngModel" autocomplete="new-password" placeholder="Mínimo 8 caracteres">
+        @if (claveCampo.invalid && claveCampo.touched) {
+          <small>La contraseña debe tener al menos 8 caracteres.</small>
+        }
+
+        <label for="nombre">Nombre completo</label>
+        <input id="nombre" name="nombre" [(ngModel)]="nombre"
+          required minlength="3" maxlength="100" #nombreCampo="ngModel" autocomplete="name" placeholder="Tu nombre y apellido">
+        @if (nombreCampo.invalid && nombreCampo.touched) {
+          <small>Ingresa tu nombre (mínimo 3 caracteres).</small>
+        }
+
+        <label for="nombre_usuario">Nombre de usuario</label>
+        <input id="nombre_usuario" name="nombre_usuario" [(ngModel)]="nombre_usuario"
+          required minlength="3" maxlength="30" pattern="[a-zA-Z0-9_]+" #usuarioCampo="ngModel"
+          autocomplete="nickname" placeholder="Ej. usuario_123">
+        @if (usuarioCampo.invalid && usuarioCampo.touched) {
+          <small>Usa entre 3 y 30 caracteres: letras, números o guion bajo.</small>
+        }
+
+        <button type="submit" [disabled]="formulario.invalid || !contactoValido() || guardando">
+          {{ guardando ? 'Creando cuenta...' : 'Crear cuenta' }}
+        </button>
+      </form>
+    }
+    <p class="enlace-login">¿Ya tienes una cuenta? <a routerLink="/login">Iniciar sesión</a></p>
+  </div>
+</section>

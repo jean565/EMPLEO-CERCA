@@ -1,0 +1,55 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.barra-navegacion {
+  background-color: #0B172A;
+  min-height: 64px;
+}
+
+.logo {
+  width: 38px;
+  height: 38px;
+  background-color: #2563EB;
+  border-radius: 8px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-right: 10px;
+  font-size: 19px;
+}
+
+.nombre-pagina {
+  color: white;
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.enlace-menu {
+  color: #CBD5E1;
+  margin-left: 10px;
+  transition: 0.3s;
+}
+
+.enlace-menu:hover {
+  color: white;
+}
+
+.btn-iniciar-sesion {
+  background-color: #2563EB;
+  color: white;
+  border-radius: 7px;
+  padding: 9px 18px;
+  border: none;
+}
+
+.btn-iniciar-sesion:hover {
+  background-color: #1D4ED8;
+  color: white;
+}
+.indicador-admin { color: #93C5FD; font-size: 14px; }
+.navbar .btn-iniciar-sesion { cursor: pointer; }
