@@ -1,1 +1,18 @@
-<p>postular works!</p>
+<section class="pagina-formulario"><div class="formulario-contenedor"><a routerLink="/ofertas">← Volver a ofertas</a>
+@if (esAdmin) {
+  <div class="aviso-admin" role="alert">El administrador no puede registrar postulaciones. Vuelve a Ofertas para gestionar publicaciones.</div>
+} @else if (oferta) {
+  <h1>Postular a {{ oferta.titulo }}</h1><p>{{ oferta.empresa }} · {{ oferta.ubicacion }}</p>
+  @if (enviado) {<p>Tu postulación ha sido registrada.</p>}
+  @else {<form (ngSubmit)="enviar()" #formulario="ngForm">
+    <label for="nombre">Nombre completo</label><input id="nombre" name="nombre" [(ngModel)]="nombre" required minlength="3" #campoNombre="ngModel" autocomplete="name">
+    @if (campoNombre.invalid && campoNombre.touched) {<small>Ingresa tu nombre (mínimo 3 caracteres).</small>}
+    <label for="correo">Correo electrónico</label><input id="correo" type="email" name="correo" [(ngModel)]="correo" required email #campoCorreo="ngModel" autocomplete="email">
+    @if (campoCorreo.invalid && campoCorreo.touched) {<small>Ingresa un correo válido.</small>}
+    <label for="telefono">Teléfono</label><input id="telefono" type="tel" name="telefono" [(ngModel)]="telefono" required minlength="9" pattern="[0-9]{9}" #campoTelefono="ngModel" placeholder="9 dígitos">
+    @if (campoTelefono.invalid && campoTelefono.touched) {<small>Ingresa 9 dígitos.</small>}
+    <label for="mensaje">Mensaje (opcional)</label><textarea id="mensaje" name="mensaje" [(ngModel)]="mensaje" rows="4" maxlength="500"></textarea>
+    <button type="submit" [disabled]="formulario.invalid">Registrar postulación</button>
+  </form>}
+} @else {<h1>Oferta no encontrada</h1><a routerLink="/ofertas">Explorar ofertas</a>}
+</div></section>

@@ -1,1 +1,14 @@
-<p>login works!</p>
+<section class="pagina-formulario">
+  <div class="formulario-contenedor">
+    <h1>Iniciar sesión</h1>
+    <p>Ingresa tus datos para acceder a Empleo Cerca.</p>
+    <form (ngSubmit)="entrar()" #formulario="ngForm">
+      <label for="correo">Correo electrónico</label>
+      <input id="correo" name="correo" type="email" [(ngModel)]="correo" required email autocomplete="email">
+      <label for="clave">Contraseña</label>
+      <input id="clave" name="clave" type="password" [(ngModel)]="clave" required autocomplete="current-password">
+      <button type="submit" [disabled]="formulario.invalid">Iniciar sesión</button>
+    </form>
+    <p>¿Aún no tienes cuenta? <a routerLink="/registro">Ir a registro</a></p>
+  </div>
+</section>

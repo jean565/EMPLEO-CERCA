@@ -1,15 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { Postulacion } from './postulacion';
+import { PostulacionService } from './postulacion';
 
-describe('Postulacion', () => {
-  let service: Postulacion;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(Postulacion);
-  });
-
+describe('PostulacionService', () => {
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    TestBed.configureTestingModule({});
+    const servicio = TestBed.inject(PostulacionService);
+    expect(servicio).toBeTruthy();
   });
 });
